@@ -20,16 +20,15 @@ As migrações e o seed inicial são executados automaticamente quando a aplica�
 
 ### Configuração no Railway
 
-1. No Railway, vá em **Settings** → **Service Settings**
-2. Configure o **Start Command** como:
-   ```bash
-   npm run start:prod
-   ```
+O Railway executará automaticamente:
+1. `npm install` - Instala as dependências
+2. `npm run build` - Gera o cliente Prisma e faz o build da aplicação
+3. `npm start` - Aplica migrações, executa seed e inicia o servidor
 
-Isso executará automaticamente:
-- `prisma migrate deploy` - Aplica as migrações
+**Nota:** Não é necessário configurar um Start Command customizado. O Railway usa `npm start` por padrão, que já está configurado para:
+- `prisma migrate deploy` (ou `prisma db push` como fallback) - Aplica as migrações
 - `tsx prisma/seed.ts` - Popula o banco com dados iniciais (usuário admin e categorias)
-- `next start` - Inicia a aplicação
+- `next start` - Inicia a aplicação na porta definida pelo Railway (variável PORT)
 
 ### Execução Manual (Opcional)
 

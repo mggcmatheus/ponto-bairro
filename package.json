@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "next start",
+    "start": "(prisma migrate deploy || (prisma db push --accept-data-loss && echo 'Schema aplicado via db push')) && tsx prisma/seed.ts && next start",
     "start:prod": "(prisma migrate deploy || (prisma db push --accept-data-loss && echo 'Schema aplicado via db push')) && tsx prisma/seed.ts && npm run build && next start",
     "postinstall": "prisma generate",
     "lint": "next lint",
@@ -36,6 +36,7 @@
     "react-leaflet": "^4.2.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.16.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -50,7 +51,6 @@
     "postcss": "^8.4.40",
     "prisma": "^5.19.1",
     "tailwindcss": "^3.4.7",
-    "tsx": "^4.16.2",
     "typescript": "^5.5.4"
   }
 }
