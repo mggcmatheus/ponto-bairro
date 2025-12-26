@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoUsuario {
+  ADMIN
+  ANUNCIANTE
+}
+
+model Usuario {
+  id         String       @id @default(uuid())
+  nome       String
+  email      String       @unique
+  senha_hash String       @map("senha_hash")
+  tipo       TipoUsuario
+  ativo      Boolean      @default(true)
+  criado_em  DateTime     @default(now()) @map("criado_em")
+  estandes   Estande[]
+
+  @@map("usuarios")
+}
+
+model Categoria {
+  id            String         @id @default(uuid())
+  nome          String
+  slug          String         @unique
+  ativa         Boolean        @default(true)
+  subcategorias Subcategoria[]
+  estandes      Estande[]
+
+  @@map("categorias")
+}
+
+model Subcategoria {
+  id          String    @id @default(uuid())
+  categoriaId String    @map("categoria_id")
+  categoria   Categoria @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  nome        String
+  slug        String
+  ativa       Boolean   @default(true)
+  estandes    Estande[]
+
+  @@unique([categoriaId, slug])
+  @@map("subcategorias")
+}
+
+model Estande {
+  id              String          @id @default(uuid())
+  usuarioId       String          @map("usuario_id")
+  usuario         Usuario         @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoriaId     String          @map("categoria_id")
+  categoria       Categoria       @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  subcategoriaId  String?         @map("subcategoria_id")
+  subcategoria    Subcategoria?   @relation(fields: [subcategoriaId], references: [id], onDelete: SetNull)
+  nome            String
+  descricao       String          @db.VarChar(500)
+  latitude        Float
+  longitude       Float
+  ativo           Boolean         @default(true)
+  criado_em       DateTime        @default(now()) @map("criado_em")
+  imagens         ImagemEstande[]
+
+  @@map("estandes")
+}
+
+model ImagemEstande {
+  id        String   @id @default(uuid())
+  estandeId String   @map("estande_id")
+  estande   Estande  @relation(fields: [estandeId], references: [id], onDelete: Cascade)
+  mime_type String   @map("mime_type")
+  dados     Bytes
+  ordem     Int      @default(0)
+
+  @@map("imagens_estande")
+}
+
