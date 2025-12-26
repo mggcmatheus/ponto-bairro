@@ -36,5 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 # prisma
-/prisma/migrations
+# Migrations devem estar no controle de versão
 
