@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import dynamic from "next/dynamic"
@@ -15,13 +16,15 @@ interface Estande {
   subcategoriaId: string | null
   latitude: number
   longitude: number
+  ativo: boolean
   imagens: Array<{ id: string; mime_type: string; dados: string }>
 }
 
 interface Categoria {
   id: string
   nome: string
-  subcategorias: Array<{ id: string; nome: string }>
+  ativa: boolean
+  subcategorias: Array<{ id: string; nome: string; ativa: boolean }>
 }
 
 export default function AnuncianteDashboard() {
@@ -220,11 +223,15 @@ export default function AnuncianteDashboard() {
                   onChange={(e) => setImagemArquivo(e.target.files?.[0] || null)}
                 />
                 {imagemUrl && !imagemArquivo && (
-                  <img
-                    src={imagemUrl}
-                    alt="Imagem atual"
-                    className="mt-2 w-full h-48 object-cover rounded-md"
-                  />
+                  <div className="mt-2 w-full h-48 relative rounded-md overflow-hidden">
+                    <Image
+                      src={imagemUrl}
+                      alt="Imagem atual"
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
                 )}
               </div>
               <div>

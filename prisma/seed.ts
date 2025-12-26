@@ -5,14 +5,14 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Criar usuário admin padrão
-  const senhaHash = await bcrypt.hash('admin123', 10)
+  const senhaHash = await bcrypt.hash('9G6bfDsv*XgbKe', 10)
   
   const admin = await prisma.usuario.upsert({
     where: { email: 'admin@pontobairro.com' },
     update: {},
     create: {
       nome: 'Administrador',
-      email: 'admin@pontobairro.com',
+      email: 'mggcmatheus@gmail.com',
       senha_hash: senhaHash,
       tipo: 'ADMIN',
       ativo: true,

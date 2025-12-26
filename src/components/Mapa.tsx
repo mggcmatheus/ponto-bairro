@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Image from "next/image"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
@@ -19,6 +20,7 @@ interface Estande {
   descricao: string
   latitude: number
   longitude: number
+  ativo: boolean
   categoria: { nome: string }
   subcategoria: { nome: string } | null
   imagens: Array<{ id: string; mime_type: string; dados: string }>
@@ -104,11 +106,14 @@ export function Mapa({ filtros, onEstandeClick }: MapaProps) {
                 <Popup>
                   <div className="text-sm" style={{ minWidth: "200px" }}>
                     {imagemUrlPopup && (
-                      <img
+                      <Image
                         src={imagemUrlPopup}
                         alt={estande.nome}
+                        width={200}
+                        height={128}
                         className="w-full h-32 object-cover rounded mb-2"
                         style={{ maxWidth: "200px" }}
+                        unoptimized
                       />
                     )}
                     <strong>{estande.nome}</strong>
@@ -132,17 +137,16 @@ export function Mapa({ filtros, onEstandeClick }: MapaProps) {
             ×
           </button>
           {imagemUrl ? (
-            <div className="w-full h-48 mb-3 rounded-md overflow-hidden">
-              <img
+            <div className="w-full h-48 mb-3 rounded-md overflow-hidden relative">
+              <Image
                 src={imagemUrl}
                 alt={estandeSelecionado.nome}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                unoptimized
                 onError={(e) => {
                   console.error("Erro ao carregar imagem")
                   e.currentTarget.style.display = "none"
-                }}
-                onLoad={() => {
-                  console.log("Imagem carregada com sucesso")
                 }}
               />
             </div>

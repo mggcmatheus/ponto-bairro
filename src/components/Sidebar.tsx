@@ -7,6 +7,7 @@ interface Categoria {
   id: string
   nome: string
   slug: string
+  ativa: boolean
   subcategorias: Subcategoria[]
 }
 
@@ -14,6 +15,7 @@ interface Subcategoria {
   id: string
   nome: string
   slug: string
+  ativa: boolean
 }
 
 interface SidebarProps {

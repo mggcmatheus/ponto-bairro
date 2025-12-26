@@ -1,13 +1,25 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const categorias = await prisma.categoria.findMany({
       where: { ativa: true },
-      include: {
+      select: {
+        id: true,
+        nome: true,
+        slug: true,
+        ativa: true,
         subcategorias: {
           where: { ativa: true },
+          select: {
+            id: true,
+            nome: true,
+            slug: true,
+            ativa: true,
+          },
           orderBy: { nome: "asc" },
         },
       },

@@ -3,6 +3,8 @@ import { requerAnunciante, getUsuarioAtual } from "@/lib/permissoes"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
+export const dynamic = 'force-dynamic'
+
 const estandeSchema = z.object({
   nome: z.string().min(1),
   descricao: z.string().max(500),

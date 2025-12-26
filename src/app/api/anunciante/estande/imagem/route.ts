@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { requerAnunciante } from "@/lib/permissoes"
 import { prisma } from "@/lib/prisma"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const usuario = await requerAnunciante()

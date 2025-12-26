@@ -3,6 +3,8 @@ import { requerAdmin } from "@/lib/permissoes"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
+export const dynamic = 'force-dynamic'
+
 const subcategoriaSchema = z.object({
   categoriaId: z.string().uuid(),
   nome: z.string().min(1),
